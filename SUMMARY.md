@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Introduction](README.md)
+* [简介](README.md)
 * [What's New!](whats_new.md)
 * [NATS 2.0](whats_new_20.md)
 * [Compare NATS](compare-nats.md)
@@ -192,16 +192,16 @@
   * [Developing a Client](nats-protocol/nats-protocol/nats-client-dev.md)
 * [NATS Cluster Protocol](nats-protocol/nats-server-protocol.md)
 
-## NATS on Kubernetes
+## 在 Kubernetes中使用NATS <a id="nats-on-kubernetes"></a>
 
-* [Introduction](nats-on-kubernetes/nats-kubernetes.md)
-* [Basic NATS and NATS Streaming Setup](nats-on-kubernetes/minimal-setup.md)
-* [Creating a Kubernetes Cluster](nats-on-kubernetes/create-k8s-cluster.md)
-* [NATS Streaming Cluster with FT Mode](nats-on-kubernetes/stan-ft-k8s-aws.md)
-* [NATS and Prometheus Operator](nats-on-kubernetes/prometheus-and-nats-operator.md)
-* [NATS Cluster and Cert Manager](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
-* [Securing a NATS Cluster with cfssl](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
-* [Using a Load Balancer for External Access to NATS](nats-on-kubernetes/nats-external-nlb.md)
-* [Creating a NATS Super Cluster in Digital Ocean with Helm](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
-* [From Zero to K8S to Leafnodes using Helm](nats-on-kubernetes/from-zero-to-leafnodes.md)
+* [序言](nats-on-kubernetes/nats-kubernetes.md)
+* [安装 NATS 和 NATS Streaming](nats-on-kubernetes/minimal-setup.md)
+* [创建一个 Kubernetes 集群](nats-on-kubernetes/create-k8s-cluster.md)
+* [容错\(Fault Tolerance\)模式下的NATS Streaming 集群](nats-on-kubernetes/stan-ft-k8s-aws.md)
+* [NATS 和 Prometheus Operator](nats-on-kubernetes/prometheus-and-nats-operator.md)
+* [NATS 集群和证书管理](nats-on-kubernetes/nats-cluster-and-cert-manager.md)
+* [使用 cfssl 来提高 NATS 集群的安全性](nats-on-kubernetes/operator-tls-setup-with-cfssl.md)
+* [使用负载均衡器\(Load Balancer\) 为NATS提供外部访问](nats-on-kubernetes/nats-external-nlb.md)
+* [使用Helm在Digital Ocean 创建一个NATS 超级集群](nats-on-kubernetes/super-cluster-on-digital-ocean.md)
+* [使用Helm从0到 K8s到 子节点](nats-on-kubernetes/from-zero-to-leafnodes.md)
 

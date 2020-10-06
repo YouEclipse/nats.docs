@@ -1,18 +1,19 @@
-# Securing a NATS Cluster with cfssl
+# 使用 cfssl 来提高 NATS 集群的安全性
 
-## Secure NATS Cluster in Kubernetes using the NATS Operator
+## 使用NATS Operator 来加固 Kubernetes 中的 NATS 集群
 
-### Features
+### 功能：
 
 * Clients TLS setup
-* TLS based auth certs via secret
-  * Reloading supported by only updating secret
-* Routes TLS setup
-* Advertising public IP per NATS server for external access
+* 客户端 TLS 配置
+* 通过密钥来授权基于 TLS 的证书
+  * 只有更新密钥才能重载证书
+* 路由TLS设置
+* 为每个NATS service 发布公共IP以供外部访问
 
-### Creating the Certificates
+### 证书创建
 
-### Generating the Root CA Certs
+### 生成CA根证书
 
 ```javascript
 {
@@ -39,6 +40,8 @@
 ```
 
 Setup the profiles for the Root CA, we will have 3 main profiles: one for the clients connecting, one for the servers, and another one for the full mesh routing connections between the servers.
+
+CA根证书有三个主要的配置文件:一个用于客户端的连接，一个用于服务端，一个用于服务间的网格路由连接。
 
 ```bash
 {
@@ -78,9 +81,9 @@ Setup the profiles for the Root CA, we will have 3 main profiles: one for the cl
 }
 ```
 
-### Generating the NATS server certs
+### 生成 NATS service 证书
 
-First we generate the certificates for the server.
+首先我们生成server的证书。
 
 ```text
 {
@@ -118,9 +121,9 @@ First we generate the certificates for the server.
 )
 ```
 
-### Generating the NATS server routes certs
+### Generating the NATS server routes certs 生成NATS server 路由证书
 
-We will also be setting up TLS for the full mesh routes.
+我们当然也需要为网格路由配置TLS。
 
 ```javascript
 {
@@ -158,7 +161,7 @@ We will also be setting up TLS for the full mesh routes.
 )
 ```
 
-### Generating the certs for the clients \(CNCF && ACME\)
+### 为客户端生成证书\(CNCF && ACME\)
 
 ```javascript
 {
@@ -190,7 +193,7 @@ We will also be setting up TLS for the full mesh routes.
 cd certs kubectl create secret generic nats-tls-example --from-file=ca.pem --from-file=server-key.pem --from-file=server.pem kubectl create secret generic nats-tls-routes-example --from-file=ca.pem --from-file=route-key.pem --from-file=route.pem kubectl create secret generic nats-tls-client-example --from-file=ca.pem --from-file=client-key.pem --from-file=client.pem
 ```
 
-### Create the Auth secret
+### 创建授权密钥
 
 ```javascript
 {
@@ -214,7 +217,7 @@ cd certs kubectl create secret generic nats-tls-example --from-file=ca.pem --fro
 kubectl create secret generic nats-tls-users --from-file=users.json
 ```
 
-#### Create a cluster with TLS
+#### 创建支持TLS的集群
 
 ```bash
 echo '
@@ -268,9 +271,9 @@ spec:
 ' | kubectl apply -f -
 ```
 
-### Create APP using certs
+### 使用证书创建应用
 
-#### Adding a new pod which uses the certificates
+####  添加一个使用证书的pod
 
 **Development**
 

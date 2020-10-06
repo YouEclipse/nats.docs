@@ -1,6 +1,6 @@
-# From Zero to K8S to Leafnodes using Helm
+# 使用Helm从0到 K8s到 子节点
 
-First, we need a number of Kubernetes clusters to be setup already. In this case we'll create a few in Digital Ocean using the `doctl` tool but you could use any K8S solution available:
+首先，我们需要一些已经配置好的Kubernetes集群。在这个场景下我们将使用 `doctl`创建几个集群，当然你可以用任何可行的Kubernetes 集群搭建的解决方案。
 
 ```text
 brew install doctl
@@ -8,7 +8,7 @@ doctl kubernetes cluster create nats-k8s-sfo2 --count 3 --region sfo2
 doctl kubernetes cluster create nats-k8s-ams3 --count 3 --region ams3
 ```
 
-Next, get your NGS credentials with leafnodes enabled. For this follow [these instructions](https://synadia.com/ngs/signup) and choose the `Developer` plan which is free and will allow you to create leafnode connections for a couple of clusters. Once you got the credentials, upload them as a secret to your K8S clusters:
+接下来，获取启用了子节点的 NGS 凭据。 请遵循[以下说明](https://synadia.com/ngs/signup) 并选择免费的`Developer`计划，该计划将允许您创建多个集群间的子节点的连接。一旦你获得了这些凭据，将这些凭据作为密钥上传到k9s集群中。
 
 ```bash
 for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
@@ -16,7 +16,7 @@ for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
 done
 ```
 
-Install Helm3 and add the NATS helm chart repo:
+安装 Helm3 然后添加 NATS 的 Helm chart 仓库:
 
 ```text
 brew install helm
@@ -24,7 +24,7 @@ helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
 ```
 
-Create the config that adds the leafnode connection to NGS:
+创建添加子节点 连接到 NGS 的配置:
 
 ```text
 # nats.yaml
@@ -40,7 +40,7 @@ natsbox:
   enabled: true
 ```
 
-Deploy it to your K8S regions:
+将它部署到不同区域的k8s集群:
 
 ```bash
 for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
@@ -48,7 +48,7 @@ for ctx in do-ams3-nats-k8s-ams3 do-sfo2-nats-k8s-sfo2; do
 done
 ```
 
-To test the multi-region connectivity by using the `nats-box` container that got deployed in each cluster:
+使用部署在各个集群的 nats-box 容器来测试跨区域的链接:
 
 ```text
 kubectl --context do-ams3-nats-k8s-ams3  exec -it nats-box -- nats-sub -s nats hello
@@ -59,7 +59,7 @@ while true; do
 done
 ```
 
-Results from the subscribe session:
+订阅的结果:
 
 ```text
 [#1] Received on [hello]: 'Hello World!'

@@ -1,6 +1,6 @@
-# Creating a NATS Super Cluster in Digital Ocean with Helm
+# 使用Helm在Digital Ocean 创建一个NATS 超级集群
 
-Let's create a super cluster using NATS Gateways. First let's create 3 different clusters in NYC, Amsterdam, and San Francisco:
+我们使用NATS Gateway创建一个超级集群。首先我们在 NYC, Amsterdam 和 San Francisco这3个区域创建3个不同的集群:
 
 ```bash
 doctl kubernetes cluster create nats-k8s-nyc1 --count 3 --region nyc1
@@ -8,7 +8,7 @@ doctl kubernetes cluster create nats-k8s-sfo2 --count 3 --region sfo2
 doctl kubernetes cluster create nats-k8s-ams3 --count 3 --region ams3
 ```
 
-Next, open up the firewall across the 3 regions to be able to access the client, leafnode and gateways ports:
+接下来，将三个区域的防火墙打开以便能够访问客户端，子节点和网关的的端口:
 
 ```bash
 for firewall in `doctl compute firewall list | tail -n 3 | awk '{print $1}'`; do
@@ -18,7 +18,7 @@ for firewall in `doctl compute firewall list | tail -n 3 | awk '{print $1}'`; do
 done
 ```
 
-For this setup, we will create a super cluster using the external IPs from the nodes of the 3 clusters. For a production type of setup, it is recommended to use a DNS entry and an A record for each one of the servers.
+在这个配置中，我们将会使用三个进群节点的外部IP来创建一个超级集群。对于生产环境的配置，我们推荐为每个服务创建一个 DNS 条目和 A记录。
 
 ```bash
 for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
@@ -30,7 +30,7 @@ for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
 done
 ```
 
-The Helm definition would look as follows for the 3 clusters:
+三个集群的Helm的定义如下：
 
 ```yaml
 # super-cluster.yaml
@@ -72,7 +72,7 @@ natsbox:
   enabled: true
 ```
 
-Let's deploy the super cluster with Helm using the name of cluster as the name of the gateway:
+使用集群名字作为网关名字通过Helm来部署超级集群:
 
 ```bash
 for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
@@ -80,7 +80,7 @@ for ctx in do-ams3-nats-k8s-ams3 do-nyc1-nats-k8s-nyc1 do-sfo2-nats-k8s-sfo2; do
 done
 ```
 
-That's it! It should now be possible to send some messages across regions:
+配置完毕！现在可以跨区域发布一些消息了。
 
 ```bash
 # Start subscription in Amsterdam

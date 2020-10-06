@@ -14,7 +14,7 @@ The server needs to persist more state for a client connection. Therefore, the S
 * Changed `AddClient(clientID, hbInbox string)` to `AddClient(info *spb.ClientInfo)`
 
 For SQL Stores, the `Clients` table has been altered to add a `proto` column.  
- You can update the SQL table manually or run the provided scripts that create the tables if they don't exists and alter the `Clients` table adding the new column. For instance, with MySQL, you would run something similar to:
+You can update the SQL table manually or run the provided scripts that create the tables if they don't exists and alter the `Clients` table adding the new column. For instance, with MySQL, you would run something similar to:
 
 ```text
 mysql -u root nss_db < scripts/mysql.db.sql
@@ -109,10 +109,9 @@ The Store interface was updated. There are 2 news APIs:
 
 * `GetChannels()`: Returns a map of `*ChannelStore`, keyed by channel names.  
 
+The implementation needs to return a copy to make it safe for the caller to manipulate
 
-  The implementation needs to return a copy to make it safe for the caller to manipulate
-
-  the map without a risk of concurrent access.
+the map without a risk of concurrent access.
 
 * `GetChannelsCount()`: Returns the number of channels currently stored.
 
@@ -122,17 +121,15 @@ The Store interface was updated. There are 2 news APIs:
 
 * `Recover()`: The recovery of persistent state was previously done in the constructor of the store implementation.  
 
+It is now separate and specified with this API. The server will first instantiate the store, in
 
-  It is now separate and specified with this API. The server will first instantiate the store, in
+which some initialization or checks can be made.
 
-  which some initialization or checks can be made.  
-
-
-  If no error is reported, the server will then proceed with calling `Recover()`, which will returned the recovered state.  
+If no error is reported, the server will then proceed with calling `Recover()`, which will returned the recovered state.
 
 * `GetExclusiveLock()`: In Fault Tolerance mode, when a server is elected leader, it will attempt to get an exclusive
 
-  lock to the shared storage before proceeding.  
+  lock to the shared storage before proceeding.
 
 Check the [Store interface](https://github.com/nats-io/nats-streaming-server/blob/master/stores/store.go) for more information.
 

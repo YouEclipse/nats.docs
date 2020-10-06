@@ -1,6 +1,8 @@
-# NATS Cluster and Cert Manager
+# NATS 集群和证书管理
 
 First we need to install the cert-manager component from [jetstack](https://github.com/jetstack/cert-manager):
+
+首先我们需要从 [jetstack](https://github.com/jetstack/cert-manager) 安装 cert-manager 组件:
 
 ```text
 kubectl create namespace cert-manager
@@ -9,6 +11,8 @@ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/relea
 ```
 
 If you are running Kubernetes &lt; 1.15, use `cert-manager-legacy.yaml` instead.
+
+如果你使用 &lt; 1.15 版本的 Kubernetes，请使用 `cert-manager-legacy.yaml`
 
 ```yaml
 apiVersion: cert-manager.io/v1alpha2
@@ -24,6 +28,8 @@ clusterissuer.certmanager.k8s.io/selfsigning unchanged
 ```
 
 Next, let's create the CA for the certs:
+
+接下来,创建 CA:
 
 ```yaml
 ---
@@ -54,7 +60,7 @@ spec:
     secretName: nats-ca
 ```
 
-Now create the certs that will match the DNS name used by the clients to connect, in this case traffic is within Kubernetes so we are using the name `nats` which is backed up by a headless service \(here is an [example](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47) of sample deployment\)
+现在创建客户端用于连接的DNS名称匹配的证书,在这个场景下，流量将在 Kuberntes 内部，所以我们使用实际上是 headless service `nats` 的DNS名称\(这个一个headless service 的[示例](https://github.com/nats-io/k8s/blob/master/nats-server/nats-server-plain.yml#L24-L47)\)
 
 ```yaml
 ---
@@ -82,6 +88,8 @@ spec:
 
 In case of using the NATS operator, the Routes use a service named `$YOUR_CLUSTER-mgmt` \(this may change in the future\)
 
+如果使用 NATS operator, 路由使用一个名叫 `$YOUR_CLUSTER-mgm` （未来可能会修改）的service
+
 ```yaml
 ---
 apiVersion: certmanager.k8s.io/v1alpha1
@@ -108,6 +116,8 @@ spec:
 ```
 
 Now let's create an example NATS cluster with the operator:
+
+现在用 operator 创建一个NATS 集群的示例:
 
 ```yaml
 apiVersion: "nats.io/v1alpha2"
@@ -145,7 +155,7 @@ spec:
     routesSecretCertFileName: "tls.crt"
 ```
 
-Confirm that the pods were deployed:
+确认所有的 pods 都已部署完成:
 
 ```bash
 kubectl get pods -o wide
@@ -158,7 +168,7 @@ nats-2   1/1     Running   0          3s    172.17.0.9    minikube   <none>
 nats-3   1/1     Running   0          2s    172.17.0.10   minikube   <none>
 ```
 
-Follow the logs:
+查看日志:
 
 ```bash
 kubectl logs nats-1

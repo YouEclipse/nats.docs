@@ -1,15 +1,15 @@
-# NATS and Prometheus Operator
+# NATS 和 Prometheus Operator
 
-## Installing the Operators
+## 安装 Operator
 
-Install the NATS Operator:
+安装 NATS Operator:
 
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/nats-io/nats-operator/master/deploy/00-prereqs.yaml
 $ kubectl apply -f https://raw.githubusercontent.com/nats-io/nats-operator/master/deploy/10-deployment.yaml
 ```
 
-Install the Prometheus Operator along with its RBAC definition \(prometheus-operator service account\):
+安装包含 RBAC 资源定义\(prometheus-operator service account\)的的 Prometheus Operator：
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -183,7 +183,7 @@ spec:
     app.kubernetes.io/name: prometheus-operator
 ```
 
-## Create a NATS Cluster Instance
+##  创建一个NATS 集群实例
 
 ```yaml
 apiVersion: "nats.io/v1alpha2"
@@ -199,9 +199,9 @@ spec:
     metricsImageTag: "0.3.0"
 ```
 
-## Create a Prometheus instance
+## 创建一个 Prometheus 实例
 
-### Create RBAC for the Prometheus instance
+### 为 Prometheus 实例创建RBAC资源 \(ServiceAccount\)
 
 ```yaml
 ---
@@ -243,7 +243,7 @@ subjects:
   namespace: default
 ```
 
-### Create the Prometheus instance
+### 创建 Prometheus 实例
 
 ```yaml
 ---
@@ -263,7 +263,7 @@ spec:
   enableAdminAPI: true
 ```
 
-## Create the ServiceMonitor for the NATS cluster
+## 为 NATS cluster 创建 ServiceMonitor 资源
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -282,13 +282,13 @@ spec:
   - port: metrics
 ```
 
-## Confirm
+## 验证
 
 ```text
 kubectl port-forward prometheus-prometheus-0 9090:9090
 ```
 
-### Results
+### 验证结果
 
 ![](https://user-images.githubusercontent.com/26195/59470419-2066fd80-8e27-11e9-9e3e-250296a091da.png)
 

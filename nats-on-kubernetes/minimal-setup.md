@@ -1,8 +1,8 @@
-# Basic NATS and NATS Streaming Setup
+# 安装 NATS 和 NATS Streaming
 
-## Minimal NATS and NATS Streaming Setup
+## NATS 和 NATS Streaming 的最小化安装
 
-To try NATS with the minimal number of components, you can start with the following:
+你可以通过以下方式来安装包含最基本组件的NATS:
 
 ```bash
 # Single server NATS
@@ -11,16 +11,15 @@ kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-serve
 kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-streaming-server/single-server-stan.yml
 ```
 
-This will setup:
+这将会安装:
 
-* A statefulset with a single NATS server \(no auth nor TLS\)
-* A single NATS Streaming node using file store with persistence
-* A `nats` headless service to which you can connect
-* A NATS Streaming Server that uses the cluster name `stan`
+* 一个包含单个 NATS server\(不支持授权和TLS\) 的 statefulset 
+* 一个你可以访问的 `nats`headless service
+* 一个在 `stan` 集群下的 NATS Streaming 服务
 
-Note that the only service your applications have to connect to is the `nats` service, the NATS Streaming server will be available by using NATS as a transport.
+需要注意的是，你的应用只需要访问 `nats`service，当然，NATS Streaming 服务也将使用 NATS 来通信.
 
-Next, try using `nats-box` to connect to the `nats` service to confirm that you have set both NATS and NATS Streaming correctly.
+接下来,可以尝试使用 `nats-box`  来连接`nats` service，以确保 NATS 和 NATS Streaming 已经配置好。
 
 ```bash
 kubectl run -i --rm --tty nats-box --image=synadia/nats-box --restart=Never
@@ -40,9 +39,9 @@ Listening on [hello], clientID=[stan-sub], qgroup=[] durable=[]
 [#1] Received: sequence:1 subject:"hello" data:"world" timestamp:1579544643374163630
 ```
 
-## HA Setup Using StatefulSets
+## 使用 StatefulSets 来配置高可用
 
-In order to have higher availability you can setup NATS and NATS Streaming \(STAN\) to run in clustering mode. The following commands will setup a 3 node NATS cluster as well as a 3 node NATS Streaming cluster that has an attached volume for persistence. Note, you will need more than one node available in your Kubernetes cluster in order for this to work, so in case of deploying onto minikube or docker desktop, please try the single node installer instead.
+为了高可用，你可以将 NATS 和NATS Streaming\(STAN\) 配置成集群模式使用。下面的命令将创建一个 包含3个NATS节点和3个NATS Streaming节点的集群，并且挂载了一个持久卷。需要注意的是，为了能正常工作，你的Kubernetes集群需要超过一个node;因此如果需要部署在ninikube或者docker客户端，请使用单节点的安装方式。
 
 ```bash
 # Create NATS cluster
@@ -52,11 +51,11 @@ kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-serve
 kubectl apply -f https://raw.githubusercontent.com/nats-io/k8s/master/nats-streaming-server/simple-stan.yml
 ```
 
-For NATS Streaming, it is actually recommended to use the Fault Tolerance mode as that would show better performance than clustering mode and better failover. You can follow this guide to setup [NATS Streaming with Fault Tolerance.](stan-ft-k8s-aws.md)
+对于NATS Streaming，我们比较推荐使用容错模式\(Fault Tolerance mode\),因为相比集群模式，它有更好的性能以及更好的failover机制。你可以参考这篇文档 [容错\(Fault Tolerance\)模式下的NATS Streaming Cluster](stan-ft-k8s-aws.md)。
 
-## Using Helm Charts
+## 使用 Helm Charts
 
-Both NATS and NATS Streaming have officially supported Helm charts as well:
+对于 NATS 和 NATS Streaming 都提供官方的 Helm Chart。
 
 * [NATS Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/nats)
 * [NATS Streaming Helm Chart](https://github.com/nats-io/k8s/tree/master/helm/charts/stan)

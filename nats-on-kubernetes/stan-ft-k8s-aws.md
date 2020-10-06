@@ -1,8 +1,8 @@
-# NATS Streaming Cluster with FT Mode
+# 容错\(Fault Tolerance\)模式下的NATS Streaming 集群
 
-## Preparation
+## 准备工作
 
-First, we need a Kubernetes cluster with a provider that offers a service with a `ReadWriteMany` filesystem available. In this short guide, we will create the cluster on AWS and then use EFS for the filesystem:
+首先，我们需要一个提供 `ReadWriteMan`文件系统的的 Kubernetes 集群。在这个简短的教程中，我们将使用 AWS 创建一个集群，并且使用 EFS 作为文件系统。
 
 ```text
 # Create 3 nodes Kubernetes cluster
@@ -15,17 +15,17 @@ eksctl create cluster --name stan-k8s \
 eksctl utils write-kubeconfig --name stan-k8s --region us-east-2
 ```
 
-For the FT mode to work, we will need to create an EFS volume which can be shared by more than one pod. Go into the [AWS console](https://us-east-2.console.aws.amazon.com/efs/home?region=us-east-2#/wizard/1) and create one and make the sure that it is in a security group where the k8s nodes will have access to it. In case of clusters created via eksctl, this will be a security group named `ClusterSharedNodeSecurityGroup`:
+为了保证容错模式正常工作，我们需要创建一个可以被多个 Pod 共享的 EFS 卷。在 [AWS 控制台](https://us-east-2.console.aws.amazon.com/efs/home?region=us-east-2#/wizard/1) 创建一个 EFS 卷，并且确保它在 k8s 节点能够访问的安全组。如果是通过 eksctl 创建的集群，这将是一个名为`ClusterSharedNodeSecurityGroup`的安全组:
 
-![Screen Shot 2019-12-04 at 11 25 08 AM](https://user-images.githubusercontent.com/26195/70177488-5ef0bd00-16d2-11ea-9cf3-e0c3196bc7da.png)
+![&#x622A;&#x56FE;&#x4E8E; 2019-12-04 at 11 25 08 AM](https://user-images.githubusercontent.com/26195/70177488-5ef0bd00-16d2-11ea-9cf3-e0c3196bc7da.png)
 
-![Screen Shot 2019-12-04 at 12 40 13 PM](https://user-images.githubusercontent.com/26195/70179769-9497a500-16d6-11ea-9e18-2a8588a71819.png)
+![&#x622A;&#x56FE;&#x4E8E; 2019-12-04 at 12 40 13 PM](https://user-images.githubusercontent.com/26195/70179769-9497a500-16d6-11ea-9e18-2a8588a71819.png)
 
-### Creating the EFS provisioner
+### 创建 EFS provisioner
 
-Confirm from the FilesystemID from the cluster and the DNS name, we will use those values to create an EFS provisioner controller within the K8S cluster:
+我们将使用集群的 FilesystemID 和 DNS name 在 K8s 集群中创建EFS provisioner controller:
 
-![Screen Shot 2019-12-04 at 12 08 35 PM](https://user-images.githubusercontent.com/26195/70177502-657f3480-16d2-11ea-9d00-b9a8c2f5320b.png)
+![&#x622A;&#x56FE;&#x4E8E; 2019-12-04 at 12 08 35 PM](https://user-images.githubusercontent.com/26195/70177502-657f3480-16d2-11ea-9d00-b9a8c2f5320b.png)
 
 ```yaml
 ---
@@ -167,7 +167,7 @@ spec:
       storage: 1Mi
 ```
 
-Result of deploying the manifest:
+执行结果:
 
 ```bash
 serviceaccount/efs-provisioner                                        created 
@@ -181,9 +181,11 @@ storageclass.storage.k8s.io/aws-efs                                   created
 persistentvolumeclaim/efs                                             created
 ```
 
-### Setting up the NATS Streaming cluster
+### 初始化 NATS Streaming 集群
 
 Now create a NATS Streaming cluster with FT mode enabled and using NATS embedded mode that is mounting the EFS volume:
+
+使用容错模式创建 内嵌NATS 的 NATS Streaming 集群，并挂载 EFS 卷。
 
 ```yaml
 ---
@@ -333,7 +335,7 @@ spec:
           claimName: efs
 ```
 
-Your cluster now will look something like this:
+你的集群将包含以下 pods:
 
 ```text
 kubectl get pods
@@ -344,7 +346,7 @@ stan-1                                   2/2     Running   0          4m56s
 stan-2                                   2/2     Running   0          4m42s
 ```
 
-If everything was setup properly, one of the servers will be the active node.
+如果初始化正常，其中某个节点将处于激活状态。
 
 ```text
 $ kubectl logs stan-0 -c stan
