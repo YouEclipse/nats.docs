@@ -31,8 +31,6 @@ NATS旨在满足当今和未来的分布式计算需求。NATS 是一个为那�
 
 ### 使用场景
 
-NATS can run anywhere, from large servers and cloud instances, through edge gateways and even IoT devices. Use cases for NATS include:
-
 NATS可以运行在任何地方，从大型服务器到云服务器，到边缘网关甚至物联网设备，使用场景包含：
 
 * Cloud Messaging
