@@ -1,6 +1,6 @@
 # Table of contents
 
-* [简介](README.md)
+* [引言](README.md)
 * [What's New!](whats_new.md)
 * [NATS 2.0](whats_new_20.md)
 * [Compare NATS](compare-nats.md)
