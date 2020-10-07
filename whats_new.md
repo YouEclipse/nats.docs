@@ -1,6 +1,6 @@
-# What's New!
+# 发布日志
 
-The NATS.io team is always working to bring you features to improve your NATS experience. Below you will find feature summaries for new implementations to NATS. Check back often for release highlights and updates.
+NATS.io 团队一直在努力为大家带来新功能，以提高大家使用NATS的体验。本文主要是NATS 实现的新功能的摘要。可以多关注本页以获得NATS最新更新的内容。
 
 ## Server release v2.1.7
 

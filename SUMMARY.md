@@ -1,9 +1,9 @@
 # Table of contents
 
 * [引言](README.md)
-* [What's New!](whats_new.md)
+* [发布日志](whats_new.md)
 * [NATS 2.0](whats_new_20.md)
-* [Compare NATS](compare-nats.md)
+* [对比 NATS](compare-nats.md)
 * [FAQ](faq.md)
 
 ## NATS Concepts

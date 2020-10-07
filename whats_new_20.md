@@ -1,10 +1,10 @@
 # NATS 2.0
 
-NATS 2.0 was the largest feature release since the original code base for the server was released. NATS 2.0 was created to allow a new way of thinking about NATS as a shared utility, solving problems at scale through distributed security, multi-tenancy, larger networks, and secure sharing of data.
+NATS 2.0 是自发布服务源码依赖功能更新最大的版本了。NATS 2.0 旨在让大家以新的方式将NATS当作共享程序，通过分布式的安全,多租户，更大的网络和安全共享的数据来解决问题。
 
-## Rationale
+## 理论基础
 
-NATS 2.0 was created to address problems in large scale distributed computing.
+NATS 的创建是为了解决大规模的分布式计算中的问题。
 
 It is difficult at best to combine identity management end-to-end \(or end-to-edge\), with data sharing, while adhering to policy and compliance. Current distributed systems increase significantly in operational complexity as they scale upward. Problems arise around service discovery, connectivity, scaling for volume, and application onboarding and updates. Disaster recovery is difficult, especially as systems have evolved to operate in silos defined by technology rather than business needs. As complexity increases, systems become expensive to operate in terms of time and money. They become fragile making it difficult to deploy services and applications hindering innovation, increasing time to value and total cost of ownership.
 

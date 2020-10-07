@@ -1,8 +1,8 @@
 ---
-description: 'NATS Comparison to Kafka, Rabbit, gRPC, and others'
+description: '对比 NATS 和 Kafka, Rabbit, gRPC,等等...'
 ---
 
-# Compare NATS
+# 对比 NATS
 
 This feature comparison is a summary of a few of the major components in several of the popular messaging technologies of today. This is by no means an exhaustive list and each technology should be investigated thoroughly to decide which will work best for your implementation.
 
