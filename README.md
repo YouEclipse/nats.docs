@@ -1,3 +1,7 @@
+---
+description: NATS 中文文档由 @YouEclipse 业余时间维护，如有疑问或相关问题可以联系 you@golang.im
+---
+
 # 引言
 
 ## 消息系统的重要性
