@@ -2,7 +2,7 @@
 
 ## 准备工作
 
-首先，我们需要一个提供 `ReadWriteMan`文件系统的的 Kubernetes 集群。在这个简短的教程中，我们将使用 AWS 创建一个集群，并且使用 EFS 作为文件系统。
+首先，我们需要一个提供 `ReadWriteMany`文件系统的的 Kubernetes 集群。在这个简短的教程中，我们将使用 AWS 创建一个集群，并且使用 EFS 作为文件系统。
 
 ```text
 # Create 3 nodes Kubernetes cluster
@@ -183,9 +183,7 @@ persistentvolumeclaim/efs                                             created
 
 ### 初始化 NATS Streaming 集群
 
-Now create a NATS Streaming cluster with FT mode enabled and using NATS embedded mode that is mounting the EFS volume:
-
-使用容错模式创建 内嵌NATS 的 NATS Streaming 集群，并挂载 EFS 卷。
+使用容错模式创建内嵌NATS 的 NATS Streaming 集群，并挂载 EFS 卷。
 
 ```yaml
 ---
