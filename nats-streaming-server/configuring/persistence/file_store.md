@@ -1,28 +1,30 @@
-# File Store
+# 文件存储
 
-For a higher level of message delivery, the server should be configured with a file store. NATS Streaming Server comes with a basic file store implementation. Various file store implementations may be added in the future.
+为了跟高级别的投递，消息服务器应该配置文件存储。NATS Streaming提供了一个基础的文件存储的实现，未来将添加不同的文件存储的实现。
 
-To start the server with a file store, you need to provide two parameters:
+让NATS Streaming server使用文件存储持久化，需要在服务启动的时候提供两个参数:
 
 ```bash
 nats-streaming-server -store file -dir datastore
 ```
 
-The parameter `-store` indicates what type of store to use, in this case `file`. The other \(`-dir`\) indicates in which directory the state should be stored.
+`-store` 参数指定了使用哪种类型的存储，在这个场景下是 `file`. 另一个参数`-dir`则是指定应该存储在哪个目录。
 
-The first time the server is started, it will create two files in this directory, one containing some server related information \(`server.dat`\) another to record clients information \(`clients.dat`\).
+在服务初次启动时，他将会在这个目录创建两个文件，一个包含服务器相关的信息\(`server.dat`\)，另一个则是记录客户端的信息\(`clients.dat`\)。
 
-When a streaming client connects, it uses a client identification, which the server registers in this file. When the client disconnects, the client is cleared from this file.
+当一个streaming客户端连接时，他会使用服务注册在这个文件的客户端标识。当客户端断开连接时，文件会将客户端标识清除。
 
-When the client publishes or subscribe to a new subject \(also called channel\), the server creates a sub-directory whose name is the subject. For instance, if the client subscribes to `foo`, and assuming that you started the server with `-dir datastore`, then you will find a directory called `datastore/foo`. In this directory you will find several files: one to record subscriptions information \(`subs.dat`\), and a series of files that logs the messages `msgs.1.dat`, etc...
+当客户端发布或者订阅新subject\(或者说channel\),服务将用这个subject的名字创建一个目录\(这也是为什么subject的名字不能包含/的原因\)。比如说，客户端订阅了`foo`,并且你的服务启动时指定了`-dir datastore`，那么你会发现一个`datastore/foo`的目录。在这个目录你会发现几个文件: 一个记录里subject的信息 \(`subs.dat`\)，另外一些则是消息的日志（`msgs.1.dat`）等等。
 
-The number of sub-directories, which again correspond to channels, can be limited by the configuration parameter `-max_channels`. When the limit is reached, any new subscription or message published on a new channel will produce an error.
+子目录的数量和channel的数量是对应的，可以通过配置参数`-max_channels` 来限制。一旦达到了限制，新的channel的新增订阅和消息的发布都会报错。
 
-On a given channel, the number of subscriptions can also be limited with the configuration parameter `-max_subs`. A client that tries to create a subscription on a given channel \(subject\) for which the limit is reached will receive an error.
+在指定的channel中，订阅的数量也可以通过配置参数来`-max_subs`限制。当客户端订阅一个订阅数量达到限制的channel时会返回异常。
 
 Finally, the number of stored messages for a given channel can also be limited with the parameter `-max_msgs` and/or `-max_bytes`. However, for messages, the client does not get an error when the limit is reached. The oldest messages are discarded to make room for the new messages.
 
-## Options
+最后，还可以通过 `-max_msgs`和 `-max_bytes`来限制指定的channel存储的消息的数量。但是，当达到消息数量限制的时，客户端发送消息并不会报错，旧的消息将被抛弃，
+
+## 选项
 
 As described in the [Configuring](../cfgfile.md#configuration-file) section, there are several options that you can use to configure a file store.
 
@@ -47,7 +49,7 @@ As previously described, each channel corresponds to a sub-directory that contai
 
 Note that this is a soft limit. It is possible for the store to use more file descriptors than the given limit if the number of concurrent read/writes to different channels is more than the said limit. It is also understood that this may affect performance since files may need to be closed/re-opened as needed.
 
-## Recovery Errors
+## 恢复异常
 
 We have added the ability for the server to truncate any file that may otherwise report an `unexpected EOF` error during the recovery process.
 

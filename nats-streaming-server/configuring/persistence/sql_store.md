@@ -1,4 +1,4 @@
-# SQL Store
+# SQL 存储
 
 Using a SQL Database for persistence is another option.
 

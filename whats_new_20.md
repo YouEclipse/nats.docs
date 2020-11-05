@@ -2,21 +2,19 @@
 
 NATS 2.0 是自发布服务源码以来功能更新最大的版本了。NATS 2.0 旨在让大家以新的方式将NATS当作共享程序，通过分布式的安全,多租户，更大的网络和安全共享的数据来解决问题。
 
-## 理论基础
+## 依据
 
 NATS 的创建是为了解决大规模的分布式计算中的问题。
 
-在遵循政策和法规的同时，很难将端对端\(或者终端与边缘设备\)的身份管理和数据共享结合起来。目前分布式系统随着规模的扩大运维变得越来越复杂。服务发现，连接性，存储的伸缩和应用的发布更新的面临问题越来越多，灾难恢复也变得困难，特别是随着系统已发展为在技术而非业务需求定义的孤岛中运行。随着系统的复杂性增加，就时间和金钱而言，系统在运维上的花费已经变得昂贵。这些问题使得系统变得脆弱，部署服务和应用程序变得困难，阻碍了创新，增加了时间成本和总成本。
+在遵循政策和法规的同时，很难将端对端\(或者终端与边缘设备\)的身份管理和数据共享结合起来。目前分布式系统随着规模的扩大运维变得越来越复杂。服务发现，连接性，存储的伸缩和应用的发布更新的面临问题越来越多，灾难恢复也变得困难，特别是随着系统已发展为在技术而非业务需求定义的孤岛中运行。随着系统的复杂性增加，就时间和金钱而言，系统在运维上的花费已经变得很高。这些问题使得系统变得脆弱，部署服务和应用程序变得困难，阻碍了创新，增加了时间成本和维护成本。
 
 因而我们决定:
 
-* **Reduce total cost of ownership**: Users want reduced TCO for their
+* **降低维护成本**: 用户总是试图降低分布式系统的运维成本，通过简单的配置就能运维一个 This is addressed by an easy to use technology that
 
-  distributed systems. This is addressed by an easy to use technology that
+can operate at global scale with simple configuration and a resilient
 
-  can operate at global scale with simple configuration and a resilient
-
-  and cloud-native architecture.
+and cloud-native architecture.
 
 * **Decrease Time to Value**: As systems scale, _time to value_ increases.
 
